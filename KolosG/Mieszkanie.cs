@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KolosG
 {
-    public enum EnumRodzaj { Luksus, Standart, Podstawa }
+   public enum EnumRodzaj { Luksus, Standart, Podstawa }
     [DataContract]
     public class Mieszkanie
     {
@@ -53,7 +53,7 @@ namespace KolosG
 
         public override string ToString()
         {
-            if (wolny)
+            if(wolny)
                 return $"iD {identyfikator} ({adres}/cena wynajmu={cenaPodstawowa}) o liczbie pokoi {liczbaPokoi} jest wolne";
             else return $"iD {identyfikator} ({adres}/cena wynajmu={cenaPodstawowa}) o liczbie pokoi {liczbaPokoi} nie jest wolne";
         }
