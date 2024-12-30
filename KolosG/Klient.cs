@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,10 +14,15 @@ namespace KolosG
         {
         }
 
-        public Klient(string imie, string nazwisko, string numerTelefonu, string pesel, DateTime dataUrodzenia)
-            : base(imie, nazwisko, numerTelefonu, pesel, dataUrodzenia)
+        public Klient(string imieNazwisko, string numerTelefonu, string pesel, string dataUrodzenia) 
+            : base(imieNazwisko, numerTelefonu, pesel, dataUrodzenia)
         {
             IDKlienta++;
+        }
+
+        public override string ToString()
+        {
+            return $"IdKlienta: {IDKlienta}, {base.ToString()}";
         }
     }
 }
