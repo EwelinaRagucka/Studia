@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Loader;
@@ -14,11 +14,11 @@ namespace KolosG
     {
         public override int Compare(Wynajecie? x, Wynajecie? y)
         {
-            if (y.nazwaKlienta == null || x.nazwaKlienta == null) return 1;
+            if (y.nazwaKlienta == null|| x.nazwaKlienta ==null) return 1;
             return x.nazwaKlienta.CompareTo(y.nazwaKlienta);
         }
     }
-    public class Wynajecie : IComparable<Wynajecie>
+    public class Wynajecie: IComparable<Wynajecie>
     {
 
         static int biezaceWynajecie { get; set; }
@@ -42,7 +42,7 @@ namespace KolosG
         {
         }
 
-        public Wynajecie(string NazwaKlienta, Mieszkanie wynajeteMieszkanie, DateTime dataWynajecia, DateTime dataZwolnienia) : this()
+        public Wynajecie(string NazwaKlienta, Mieszkanie wynajeteMieszkanie, DateTime dataWynajecia, DateTime dataZwolnienia) : this() 
         {
             this.wynajeteMieszkanie = wynajeteMieszkanie;
             this.dataWynajecia = dataWynajecia;
@@ -54,8 +54,7 @@ namespace KolosG
         public string NazwaKlienta
         {
             get => nazwaKlienta;
-            set
-            {
+            set{
                 if (value.Length <= 3) throw new ZlaNazwaexception();
                 nazwaKlienta = value;
             }
@@ -83,7 +82,7 @@ namespace KolosG
             return dataZwolnienia.CompareTo(obj.dataZwolnienia);
         }
 
-
+        
     }
 
     [Serializable]
