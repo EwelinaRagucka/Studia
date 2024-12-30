@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -24,7 +24,11 @@ namespace KolosG
         [DataMember]
         public int iloscMieszkan { get; set; }
         [DataMember]
+        public int iloscDomow { get; set; }
+        [DataMember]
         public LinkedList<Mieszkanie> mieszkania { get; set; }
+        [DataMember]
+        public LinkedList<Dom> domy { get; set; }
         //array nie pracuje
         [DataMember]
         public List<Wynajecie> listaWynajmowan { get; set; }
@@ -34,6 +38,7 @@ namespace KolosG
             this.nazwaOddzial = nazwaOddzial;
             this.miasto = miasto;
             mieszkania = new();
+            domy = new();
             listaWynajmowan = new();
         }
 
@@ -41,6 +46,12 @@ namespace KolosG
         {
             mieszkania.AddFirst(m);
             iloscMieszkan++;
+
+        }
+        public void DodajDom(Dom m)
+        {
+            domy.AddFirst(m);
+            iloscDomow++;
 
         }
         //tu bierzemy wynajecie a nie mieszkanie
@@ -51,17 +62,17 @@ namespace KolosG
         }
         public void PodajWolneMieszkania()
         {
-            foreach (var m in mieszkania)
+            foreach(var m in mieszkania)
             {
-                if (m.wolny) Console.WriteLine(m.ToString());
+                if(m.wolny) Console.WriteLine(m.ToString());
             }
         }
 
         public void Wynajmij(Wynajecie w)
         {
-
-            w.wynajeteMieszkanie.wolny = false;
-            listaWynajmowan.Add(w);
+           
+                w.wynajeteMieszkanie.wolny = false;
+                listaWynajmowan.Add(w);
 
             //usunac z listy mieszkan
         }
@@ -70,31 +81,33 @@ namespace KolosG
         public void Zwolnij(Mieszkanie wynajeteMieszkanie)
         {
             var wynajem = listaWynajmowan.FirstOrDefault(w => w.wynajeteMieszkanie == wynajeteMieszkanie);
-            if (wynajem != null)
+                if(wynajem != null)
             {
                 wynajem.wynajeteMieszkanie.wolny = true;
                 listaWynajmowan.Remove(wynajem);
             }
         }
-
+           
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"oddzial {nazwaOddzial} ma mieszkania:\n");
-            foreach (var m in listaWynajmowan)
-            { sb.AppendLine(m.ToString()); }
+            sb.AppendLine($"oddzial {nazwaOddzial} ma mieszkania i domy:\n");
+            foreach(var m in mieszkania)
+                { sb.AppendLine($"Mieszkanie {m.ToString()}"); }
+            foreach (var m in domy)
+            { sb.AppendLine($"Dom {m.ToString()}"); }
             return sb.ToString();
         }
 
         //campareto klasa i objekt ktory bedziemy powownywac
-        public void Sortuj()
+      public void Sortuj()
         {
             listaWynajmowan.Sort();
         }
 
         //metoda po nazwie sortowanie
-        public void SortujNazwa()
+            public void SortujNazwa()
         {
             listaWynajmowan.Sort(new NazwaComparer());
         }
@@ -118,4 +131,5 @@ namespace KolosG
         }
     }
 
+}
 }
