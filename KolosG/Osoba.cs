@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,20 +8,19 @@ using System.Threading.Tasks;
 
 namespace KolosG
 {
-    public abstract class Osoba
+    public  class Osoba
     {
-        public string imie { get; set; }
-        public string nazwisko { get; set; }
+        public string imieNazwisko { get; set; }
         public string numerTelefonu { get; set; }
         public string pesel;
-        public DateTime dataUrodzenia { get; private set; }
+        public string dataUrodzenia { get;  set; }
 
         public string Pesel
         {
             get => pesel;
             set
             {
-                if (Regex.IsMatch(value, @"^\d{11}$"))
+                if (!Regex.IsMatch(value, @"^\d{11}$"))
                     throw new FormatException("Pesel musi skladac sie z 11 cyfr");
                 else pesel = value;
             }
@@ -31,39 +30,42 @@ namespace KolosG
             get => numerTelefonu;
             set
             {
-                if (Regex.IsMatch(value, @"^\d{9}$"))
+                if (!Regex.IsMatch(value, @"^\d{9}$"))
                     throw new FormatException("Numer telefonu musi skladac sie z 9 cyfr");
                 else numerTelefonu = value;
             }
         }
 
-        protected Osoba(string imie, string nazwisko, string numerTelefonu, string pesel, DateTime dataUrodzenia)
+        public Osoba(string imieNazwisko, string numerTelefonu, string pesel, string dataUrodzenia)
         {
-            this.imie = imie;
-            this.nazwisko = nazwisko;
-            this.numerTelefonu = numerTelefonu;
-            this.pesel = Pesel;
-            this.dataUrodzenia = dataUrodzenia;
-            //tu nie dziala tryparse
-            //if (DateTime.TryParseExact(dataUrodzenia,
-            //    new[] { "dd-MM-yyyy", "yyyy-MM-dd" },
-            //     CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
-            //{
-            //    DataUrodzenia = parsedDate;
-            //}
-            //else
-            //{
-            //    throw new ArgumentException("Niepoprawny format daty urodzenia. Użyj formatu dd-MM-yyyy lub yyyy-MM-dd.");
-            //}
+            this.imieNazwisko = imieNazwisko;
+            this.NumerTelefonu = numerTelefonu;
+            this.Pesel = pesel;
+
+            //Sprawdzenie formatu danych
+            if (DateTime.TryParseExact(dataUrodzenia,
+                new[] { "dd-MM-yyyy", "yyyy-MM-dd" },
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
+            {
+                this.dataUrodzenia = parsedDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture); // Konwersja na string
+            }
+            else
+            {
+                throw new ArgumentException("Niepoprawny format daty urodzenia. Użyj formatu dd-MM-yyyy lub yyyy-MM-dd.");
+            }
         }
 
-        protected Osoba()
+
+        public Osoba()
         {
         }
 
         public override string ToString()
         {
-            return $"Imię: {imie}, Nazwisko: {nazwisko}, PESEL: {Pesel}, Numer telefonu: {numerTelefonu}";
+            return $"Imie i nazwisko: {imieNazwisko} PESEL: {Pesel}, Numer telefonu: {numerTelefonu}";
         }
+
+        //metoda, gdzie osoba staje sie klientem
+        public Klient ToKlient() => new Klient(imieNazwisko, numerTelefonu, Pesel, dataUrodzenia);
     }
 }
